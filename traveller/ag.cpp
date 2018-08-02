@@ -3,10 +3,12 @@
 
 #include "ag.h"
 #include "types.h"
+#include <unistd.h>
 
 AG::AG()
 {
     std::cout << "AG::AG()"<< std::endl;
+
 }
 
 AG::~AG()
@@ -39,8 +41,8 @@ int AG::getVecotrSize()
 
 void AG::deleteWorst(unsigned int iteration)
 {
+    max = 0;
     min = m_chromosonVector.at(0).distance();
-    bestChromo = m_chromosonVector.at(0);
     for(std::vector<CHROMOSON>::iterator it = m_chromosonVector.begin(); it != m_chromosonVector.end(); ++it) {
         unsigned int m_d = it->distance();
         std::cout << "dystans: " << m_d << std::endl;
@@ -53,6 +55,7 @@ void AG::deleteWorst(unsigned int iteration)
             minPos = it;
         }
     }
+    std::cout << "GENERACJA: "<<iteration << std::endl;
     std::cout << "usunieta sciezka: " ;
     maxPos->print();
     std::cout << max<< std::endl;
@@ -62,7 +65,8 @@ void AG::deleteWorst(unsigned int iteration)
     std::cout << std::endl <<bestChromo.distance() << " : "<< minPos->distance()<< std::endl;
 
     if (bestChromo.distance() > minPos->distance()){
-        bestChromo = *minPos;
+        std::cout  << "przypisuje " << minPos->distance()<< std::endl;
+        bestChromo.list = minPos->list;
         bestChromo_generation = iteration;
     }
 
@@ -71,11 +75,28 @@ void AG::deleteWorst(unsigned int iteration)
 
 void AG::mutation()
 {
-    int randomNumber = getRandom(m_chromosonVector.size());
-    std::cout << "mutujemy " << randomNumber <<" sciezka ";
-    m_chromosonVector.at(randomNumber).print();
-    std::cout << std::endl;
+    int randomNumberPath = getRandom(m_chromosonVector.size()-1);
+    sleep(1);
+    int randomNumberElement1 = getRandom(m_chromosonVector.at(0).list.size()-1);
+    sleep(1);
+    int randomNumberElement2 = getRandom(m_chromosonVector.at(0).list.size()-1);
+    std::cout << "mutujemy " << randomNumberPath <<" sciezka ";
+    m_chromosonVector.at(randomNumberPath).print();
+    std::cout << " element1 "<< randomNumberElement1<< std::endl;
+    std::cout << " element2 "<< randomNumberElement2<< std::endl;
 
+    CHROMOSON temp =  m_chromosonVector.at(randomNumberPath);
+    temp.print();
+    temp.printDistance();
+    auto e1 = temp.list.at(randomNumberElement1);
+    auto e2 = temp.list.at(randomNumberElement2);
+    temp.list.at(randomNumberElement1) = e2;
+    temp.list.at(randomNumberElement2) = e1;
+
+    temp.print();
+    temp.printDistance();
+
+    m_chromosonVector.push_back(temp);
 }
 
 void AG::printBest()
@@ -83,4 +104,10 @@ void AG::printBest()
     bestChromo.print();
     std::cout << "dystans : " << bestChromo.distance()<< " zapisany w generacji " << bestChromo_generation << std::endl;
 
+}
+
+void AG::init()
+{
+
+    bestChromo = m_chromosonVector.at(0);
 }

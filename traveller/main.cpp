@@ -189,12 +189,17 @@ int main()
     traveler.insertChromoson(ch7);
     traveler.insertChromoson(ch8);
 
+    traveler.init();
 
     std::cout << "vektor size przed usunieciem: " << traveler.getVecotrSize()<< std::endl;
-    traveler.deleteWorst(1);
-    traveler.mutation();
-    std::cout << "vektor size po usunieciu: " << traveler.getVecotrSize()<< std::endl;
+    for ( int i = 1 ; i < 150; ++i)
+    {
+        traveler.deleteWorst(i);
+        traveler.mutation();
+    }
 
+    std::cout << "vektor size po usunieciu: " << traveler.getVecotrSize()<< std::endl;
+    std::cout << " -----------------------------------------------------------" << std::endl;
     traveler.printBest();
     return 0;
 }

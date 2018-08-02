@@ -28,6 +28,7 @@ public:
     void deleteWorst(unsigned int iteration);
     void mutation();
     void printBest();
+    void init();
 };
 
 #endif // AG_H
