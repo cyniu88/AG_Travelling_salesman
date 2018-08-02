@@ -1,5 +1,6 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+#include <thread>
 
 #include "ag.h"
 #include "types.h"
@@ -75,11 +76,15 @@ void AG::deleteWorst(unsigned int iteration)
 
 void AG::mutation()
 {
+    int m_sleep = 500000;
     int randomNumberPath = getRandom(m_chromosonVector.size()-1);
-    sleep(1);
+    std::this_thread::sleep_for(std::chrono::microseconds(m_sleep));
     int randomNumberElement1 = getRandom(m_chromosonVector.at(0).list.size()-1);
-    sleep(1);
+    std::this_thread::sleep_for(std::chrono::microseconds(m_sleep));
     int randomNumberElement2 = getRandom(m_chromosonVector.at(0).list.size()-1);
+    while (randomNumberElement1 == randomNumberElement2){
+        randomNumberElement2 = getRandom(m_chromosonVector.at(0).list.size()-1);
+    }
     std::cout << "mutujemy " << randomNumberPath <<" sciezka ";
     m_chromosonVector.at(randomNumberPath).print();
     std::cout << " element1 "<< randomNumberElement1<< std::endl;

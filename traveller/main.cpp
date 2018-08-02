@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <iostream>
+#include <ctime>        // std::time
+#include <cstdlib>      // std::rand, std::srand
 
 #include "ag.h"
 
@@ -131,53 +133,56 @@ std::vector <CITY_AND_DISTANCE> genereteCityMap()
     return mapsOfCity;
 }
 
+int myrandom (int i) { return std::rand()%i;}
 
 int main()
 {
+    std::srand ( unsigned ( std::time(0) ) );
 
     std::vector <CITY_AND_DISTANCE> mapsOfCity = genereteCityMap();
 
     CHROMOSON ch1;
     ch1.list = mapsOfCity;
-    std::random_shuffle(ch1.list.begin(), ch1.list.end());
+    std::random_shuffle(ch1.list.begin(), ch1.list.end(), myrandom);
     ch1.print();
     ch1.printDistance();
     CHROMOSON ch2;
     ch2.list = mapsOfCity;
-    std::random_shuffle(ch2.list.begin(), ch2.list.end());
+    std::random_shuffle(ch2.list.begin(), ch2.list.end(), myrandom);
     ch2.print();
     ch2.printDistance();
     CHROMOSON ch3;
     ch3.list = mapsOfCity;
-    std::random_shuffle(ch3.list.begin(), ch3.list.end());
+    std::random_shuffle(ch3.list.begin(), ch3.list.end(), myrandom);
     ch3.print();
     ch3.printDistance();
     CHROMOSON ch4;
     ch4.list = mapsOfCity;
-    std::random_shuffle(ch4.list.begin(), ch4.list.end());
+    std::random_shuffle(ch4.list.begin(), ch4.list.end(), myrandom);
     ch4.print();
     ch4.printDistance();
     CHROMOSON ch5;
     ch5.list = mapsOfCity;
-    std::random_shuffle(ch5.list.begin(), ch5.list.end());
+    std::random_shuffle(ch5.list.begin(), ch5.list.end(), myrandom);
     ch5.print();
     ch5.printDistance();
     CHROMOSON ch6;
     ch6.list = mapsOfCity;
-    std::random_shuffle(ch6.list.begin(), ch6.list.end());
+    std::random_shuffle(ch6.list.begin(), ch6.list.end(), myrandom);
     ch6.print();
     ch6.printDistance();
     CHROMOSON ch7;
     ch7.list = mapsOfCity;
-    std::random_shuffle(ch7.list.begin(), ch7.list.end());
+    std::random_shuffle(ch7.list.begin(), ch7.list.end(), myrandom);
     ch7.print();
     ch7.printDistance();
     CHROMOSON ch8;
     ch8.list = mapsOfCity;
-    std::random_shuffle(ch8.list.begin(), ch8.list.end());
+    std::random_shuffle(ch8.list.begin(), ch8.list.end(), myrandom);
     ch8.print();
     ch8.printDistance();
 
+   // return 0;
     AG traveler;
 
     traveler.insertChromoson(ch1);
@@ -192,7 +197,7 @@ int main()
     traveler.init();
 
     std::cout << "vektor size przed usunieciem: " << traveler.getVecotrSize()<< std::endl;
-    for ( int i = 1 ; i < 150; ++i)
+    for ( int i = 1 ; i < 35000; ++i)
     {
         traveler.deleteWorst(i);
         traveler.mutation();
