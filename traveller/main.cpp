@@ -197,7 +197,7 @@ int main()
     traveler.init();
 
     std::cout << "vektor size przed usunieciem: " << traveler.getVecotrSize()<< std::endl;
-    for ( int i = 1 ; i < 35000; ++i)
+    for ( int i = 1 ; i < 350; ++i)
     {
         traveler.deleteWorst(i);
         traveler.mutation();

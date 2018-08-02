@@ -19,15 +19,15 @@ AG::~AG()
 
 int AG::getRandom(unsigned int from, unsigned int to)
 {
-    srand(time(NULL));
+    std::srand(time(NULL));
 
     /* generate secret number between 1 and 10: */
-    return rand() % to + from;
+    return std::rand() % to + from;
 }
 
 int AG::getRandom(unsigned int to)
 {
-    return getRandom(1,to);
+    return getRandom(0,to);
 }
 
 void AG::insertChromoson(CHROMOSON ch)
