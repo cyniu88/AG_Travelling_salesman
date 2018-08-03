@@ -25,6 +25,14 @@ struct CITY_AND_DISTANCE{
     unsigned int getDistance(CITY name){
         return distanceMap[name];
     }
+    bool operator ==( const CITY_AND_DISTANCE & v )
+    {
+        if( this->cityName == v.cityName )
+             return true;
+        else
+             return false;
+
+    }
 };
 
 struct CHROMOSON
