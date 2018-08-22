@@ -4,10 +4,23 @@
 #include <map>
 #include <vector>
 
-
 enum CITY{
-    A=1,
-    B,C,D,E,F,G,H,I,J
+    WROCLAW = 0,
+    BYDGOSZCZ,
+    LUBLIN,
+    GORZOW_WIELKOPOLSKI,
+    LODZ,
+    KRAKOW,
+    WARSZAWA,
+    OPOLE,
+    RZESZOW,
+    BIALYSTOK,
+    GDANSK,
+    KATOWICE,
+    KIELCE,
+    OLSZTYN,
+    POZNAN,
+    SZCZECIN,
 };
 
 struct CITY_AND_DISTANCE{
@@ -28,9 +41,9 @@ struct CITY_AND_DISTANCE{
     bool operator ==( const CITY_AND_DISTANCE & v )
     {
         if( this->cityName == v.cityName )
-             return true;
+            return true;
         else
-             return false;
+            return false;
 
     }
 };
@@ -45,7 +58,7 @@ struct CHROMOSON
             this->generation = other.generation;
             this->list = other.list;
         }
-    return *this;
+        return *this;
     }
     void print(){
         for(auto n : list)
@@ -59,16 +72,22 @@ struct CHROMOSON
     }
     std::string cityEnumToString(CITY e){
         switch (e){
-        case  CITY::A:                return "A";
-        case  CITY::B:                return "B";
-        case  CITY::C:                return "C";
-        case  CITY::D:                return "D";
-        case  CITY::E:                return "E";
-        case  CITY::F:                return "F";
-        case  CITY::G:                return "G";
-        case  CITY::H:                return "H";
-        case  CITY::I:                return "I";
-        case  CITY::J:                return "J";
+        case  CITY::WROCLAW:                return "WROCLAW";
+        case  CITY::BYDGOSZCZ:              return "BYDGOSZCZ";
+        case  CITY::LUBLIN:                 return "LUBLIN";
+        case  CITY::GORZOW_WIELKOPOLSKI:    return "GORZOW_WIELKOPOLSKI";
+        case  CITY::LODZ:                   return "LODZ";
+        case  CITY::KRAKOW:                 return "KRAKOW";
+        case  CITY::WARSZAWA:               return "WARSZAWA";
+        case  CITY::OPOLE:                  return "OPOLE";
+        case  CITY::RZESZOW:                return "RZESZOW";
+        case  CITY::BIALYSTOK:              return "BIALYSTOK";
+        case  CITY::GDANSK:                 return "GDANSK";
+        case  CITY::KATOWICE:               return "KATOWICE";
+        case  CITY::KIELCE:                 return "KIELCE";
+        case  CITY::OLSZTYN:                return "OLSZTYN";
+        case  CITY::POZNAN:                 return "POZNAN";
+        case  CITY::SZCZECIN:               return "SZCZECIN";
         }
     }
 
