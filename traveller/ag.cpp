@@ -5,7 +5,10 @@
 
 #include "ag.h"
 #include "types.h"
+#include "random.hpp"
+
 #include <unistd.h>
+//using Random = effolkronium::random_static;
 
 AG::AG()
 {
@@ -20,10 +23,9 @@ AG::~AG()
 
 int AG::getRandom(unsigned int from, unsigned int to)
 {
-    std::srand(time(NULL));
 
-    /* generate secret number between 1 and 10: */
-    return std::rand() % to + from;
+return effolkronium::random_static::get(from,to);
+
 }
 
 int AG::getRandom(unsigned int to)
@@ -75,9 +77,43 @@ void AG::deleteWorst(unsigned int iteration)
     m_chromosonVector.erase(maxPos);
 }
 
+void AG::deleteBest(unsigned int iteration)
+{
+    max = 0;
+    min = m_chromosonVector.at(0).distance();
+    for(std::vector<CHROMOSON>::iterator it = m_chromosonVector.begin(); it != m_chromosonVector.end(); ++it) {
+        unsigned int m_d = it->distance();
+        std::cout << "dystans: " << m_d << std::endl;
+        if (m_d > max){
+            max = m_d;
+            maxPos = it;
+        }
+        if(m_d < min){
+            min = m_d;
+            minPos = it;
+        }
+    }
+    std::cout << "GENERACJA: "<<iteration << std::endl;
+    std::cout << "usunieta sciezka: " ;
+    minPos->print();
+    std::cout << min << std::endl;
+
+    std::cout << "najlepsza trasa ma " << max << "km - ";
+    maxPos->print();
+    std::cout << std::endl << bestChromo.distance() << " -:- "<< maxPos->distance()<< std::endl;
+
+    if (bestChromo.distance() < maxPos->distance()){
+        std::cout  << "przypisuje " << maxPos->distance()<< std::endl;
+        bestChromo.list = maxPos->list;
+        bestChromo_generation = iteration;
+    }
+
+    m_chromosonVector.erase(minPos);
+}
+
 void AG::mutation()
 {
-    int m_sleep = 500000;
+    int m_sleep = 500;//000;
     int randomNumberPath = getRandom(m_chromosonVector.size()-1);
     std::this_thread::sleep_for(std::chrono::microseconds(m_sleep));
     int randomNumberElement1 = getRandom(m_chromosonVector.at(0).list.size()-1);
@@ -109,7 +145,7 @@ void AG::mutationOX()
 {
     std::cout << " ---------------------------------------------- " << std::endl;
     CHROMOSON father, child;
-    int m_sleep = 500000;
+    int m_sleep = 500;//000;
     int randomNumberPath = getRandom(m_chromosonVector.size()-1);
     std::this_thread::sleep_for(std::chrono::microseconds(m_sleep));
     int randomNumberElement1 = getRandom(m_chromosonVector.at(0).list.size()-1);
@@ -117,6 +153,7 @@ void AG::mutationOX()
     int randomNumberElement2 = getRandom(m_chromosonVector.at(0).list.size()-1);
     while (randomNumberElement1 == randomNumberElement2){
         randomNumberElement2 = getRandom(m_chromosonVector.at(0).list.size()-1);
+        std::cout << " takie same"<<std::endl;
     }
 
 

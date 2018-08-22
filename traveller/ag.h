@@ -26,6 +26,7 @@ public:
     int getVecotrSize();
 
     void deleteWorst(unsigned int iteration);
+    void deleteBest(unsigned int iteration);
     void mutation();
     void mutationOX();
     void printBest();
