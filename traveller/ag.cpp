@@ -8,12 +8,10 @@
 #include "random.hpp"
 
 #include <unistd.h>
-//using Random = effolkronium::random_static;
-
+int myrandom2 (int i) { return std::rand()%i;}
 AG::AG()
 {
     std::cout << "AG::AG()"<< std::endl;
-
 }
 
 AG::~AG()
@@ -24,7 +22,7 @@ AG::~AG()
 int AG::getRandom(unsigned int from, unsigned int to)
 {
 
-return effolkronium::random_static::get(from,to);
+    return effolkronium::random_static::get(from,to);
 
 }
 
@@ -93,7 +91,7 @@ void AG::deleteBest(unsigned int iteration)
             minPos = it;
         }
     }
-    std::cout << "GENERACJA: "<<iteration << std::endl;
+    std::cout << "GENERACJA: " << iteration << std::endl;
     std::cout << "usunieta sciezka: " ;
     minPos->print();
     std::cout << min << std::endl;
@@ -145,17 +143,16 @@ void AG::mutationOX()
 {
     std::cout << " ---------------------------------------------- " << std::endl;
     CHROMOSON father, child;
-    int m_sleep = 500;//000;
+    // int m_sleep = 500;//000;
     int randomNumberPath = getRandom(m_chromosonVector.size()-1);
-    std::this_thread::sleep_for(std::chrono::microseconds(m_sleep));
+    // std::this_thread::sleep_for(std::chrono::microseconds(m_sleep));
     int randomNumberElement1 = getRandom(m_chromosonVector.at(0).list.size()-1);
-    std::this_thread::sleep_for(std::chrono::microseconds(m_sleep));
+    // std::this_thread::sleep_for(std::chrono::microseconds(m_sleep));
     int randomNumberElement2 = getRandom(m_chromosonVector.at(0).list.size()-1);
     while (randomNumberElement1 == randomNumberElement2){
         randomNumberElement2 = getRandom(m_chromosonVector.at(0).list.size()-1);
         std::cout << " takie same"<<std::endl;
     }
-
 
     if (randomNumberElement1 > randomNumberElement2){
         int temp = randomNumberElement1;
@@ -163,28 +160,11 @@ void AG::mutationOX()
         randomNumberElement2 = temp;
     }
 
-//    randomNumberElement1 = 0;
-//    randomNumberElement2 = 5;
     std::cout << " od " << randomNumberElement1 << " do " << randomNumberElement2 << std::endl;
 
     father =  m_chromosonVector.at(randomNumberPath);
 
-
-//    for (int i = randomNumberElement1 ; i < randomNumberElement2 ; ++i)
-//    {
-//        std::cout << "subvector father " << father.cityEnumToString(father.list.at(i).cityName)<<std::endl;
-//    }
     child = father;
-
-    //    auto temp = father.list.at(randomNumberElement);
-    //    child.list.at(randomNumberElement) = father.list.at(randomNumberElement);
-
-    //    std::vector<CITY_AND_DISTANCE>::iterator pos = std::find(std::begin(mother.list), std::end(mother.list), temp);
-    //    int posInt = std::distance( mother.list.begin(), pos ) ;
-    //    std::cout << " w mamie " << child.cityEnumToString(temp.cityName)
-    //              << " jest na pozycji " << posInt<< std::endl;
-
-
 
     CHROMOSON temp;
 
@@ -197,36 +177,18 @@ void AG::mutationOX()
         temp.list.push_back(father.list.at(i));
     }
 
-    //    for (auto it : temp.list)
-    //    {
-    //        std::cout << "subvector1 " << father.cityEnumToString(it.cityName)<<std::endl;
-    //    }
-
     std::random_shuffle(temp.list.begin(), temp.list.end());
-
-
-//    for (auto it : temp.list)
-//    {
-//        std::cout << "subvector1 " << father.cityEnumToString(it.cityName)<<std::endl;
-//    }
 
     for ( int i = 0 ; i < randomNumberElement1; ++i)
     {
-       // std::cout <<i<< " for " << temp.cityEnumToString(temp.list.at(i).cityName) << std::endl;
         child.list.at(i) = temp.list.at(i);
     }
 
-    //    for (int i = randomNumberElement1 ; i < randomNumberElement2 ; ++i)
-    //    {
-    //       child.list.push_back(father.list.at(i));
-    //    }
 
     for ( int i = randomNumberElement2 ; i < father.list.size(); ++i)
     {
-     //   std::cout  << " last " << temp.cityEnumToString(temp.list.at(i-(randomNumberElement2-randomNumberElement1)).cityName) << std::endl;
         child.list.at(i) = temp.list.at(i-(randomNumberElement2-randomNumberElement1));
     }
-
 
     std::cout << " wylosownao ojca: ";
     father.print();
@@ -241,15 +203,38 @@ void AG::mutationOX()
     m_chromosonVector.push_back(child);
 }
 
+void AG::mixPopulation()
+{
+    if(m_chromosonVector.at(1).distance() == m_chromosonVector.at(2).distance() &&
+            m_chromosonVector.at(2).distance() == m_chromosonVector.at(3).distance() &&
+            m_chromosonVector.at(3).distance() == m_chromosonVector.at(4).distance() &&
+            m_chromosonVector.at(4).distance() == m_chromosonVector.at(5).distance() &&
+            m_chromosonVector.at(5).distance() == m_chromosonVector.at(6).distance() &&
+            m_chromosonVector.at(6).distance() == m_chromosonVector.at(7).distance() &&
+            m_chromosonVector.at(7).distance() == m_chromosonVector.at(8).distance() &&
+            m_chromosonVector.at(9).distance() == m_chromosonVector.at(10).distance() &&
+            m_chromosonVector.at(10).distance() == m_chromosonVector.at(11).distance() &&
+            m_chromosonVector.at(11).distance() == m_chromosonVector.at(12).distance() &&
+            m_chromosonVector.at(12).distance() == m_chromosonVector.at(13).distance() &&
+            m_chromosonVector.at(13).distance() == m_chromosonVector.at(14).distance() &&
+            m_chromosonVector.at(14).distance() == m_chromosonVector.at(15).distance() )
+    {
+        for (unsigned int i = 1; i < m_chromosonVector.size(); ++i)
+        {
+
+            std::random_shuffle( m_chromosonVector.at(i).list.begin(),  m_chromosonVector.at(i).list.end(), myrandom2);
+        }
+    }
+
+}
+
 void AG::printBest()
 {
     bestChromo.print();
     std::cout << "dystans : " << bestChromo.distance()<< " zapisany w generacji " << bestChromo_generation << std::endl;
-
 }
 
 void AG::init()
 {
-
     bestChromo = m_chromosonVector.at(0);
 }

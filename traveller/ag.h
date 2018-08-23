@@ -29,6 +29,7 @@ public:
     void deleteBest(unsigned int iteration);
     void mutation();
     void mutationOX();
+    void mixPopulation();
     void printBest();
     void init();
 
